@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Unit 5 Exam - Mr. Sayed Abdelrahman</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            purple: '#6B21A8',
+                            pink: '#DB2777',
+                            light: '#F3E8FF',
+                            dark: '#4C1D95'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Calibri', 'Segoe UI', 'Tahoma', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- MathJax for Math Formatting -->
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        @keyframes animatedGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: 'Calibri', 'Segoe UI', sans-serif;
+            background: linear-gradient(-45deg, #4c1d95, #7e22ce, #be185d, #831843);
+            background-size: 400% 400%;
+            animation: animatedGradient 15s ease infinite;
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Custom scrollbar for review section */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a855f7;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #7e22ce;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-800 p-3 md:p-6">
+
+    <!-- Header Branding -->
+    <header class="w-full max-w-5xl mx-auto mb-6 glass-card rounded-2xl p-4 md:p-5 flex flex-col md:flex-row justify-between items-center gap-4 border-b-4 border-pink-500">
+        <div class="flex items-center gap-4 text-center md:text-left">
+            <div class="w-14 h-14 bg-gradient-to-tr from-purple-600 to-pink-500 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
+                <i class="fa-solid fa-calculator"></i>
+            </div>
+            <div>
+                <h1 class="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-800 to-pink-600">
+                    Mr. Sayed Abdelrahman
+                </h1>
+                <p class="text-sm font-semibold text-purple-700 tracking-wide">
+                    <i class="fa-solid fa-graduation-cap mr-1"></i> Senior Math Teacher | Unit 5 Assessment
+                </p>
+            </div>
+        </div>
+
+        <a href="https://wa.me/201143943465" target="_blank" rel="noopener noreferrer" 
+           class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-5 py-2.5 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 active:translate-y-0 text-sm">
+            <i class="fa-brands fa-whatsapp text-lg"></i>
+            <span>01143943465</span>
+        </a>
+    </header>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-5xl mx-auto flex-1 flex flex-col justify-center">
+
+        <!-- SCREEN 1: WELCOME SCREEN -->
+        <section id="welcome-screen" class="glass-card rounded-3xl p-6 md:p-10 text-center max-w-2xl mx-auto w-full transition-all duration-300">
+            <div class="w-20 h-20 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner">
+                <i class="fa-solid fa-user-graduate"></i>
+            </div>
+            <h2 class="text-3xl font-extrabold text-purple-950 mb-3">Welcome to Unit 5 Math Exam</h2>
+            <p class="text-gray-600 mb-8 leading-relaxed">
+                Topic: <strong class="text-purple-700">Measurement & Units of Length</strong> (mm, cm, m, km, ruler reading & word problems).
+            </p>
+
+            <form id="welcome-form" onsubmit="event.preventDefault(); goToInstructions();" class="space-y-6 text-left">
+                <div>
+                    <label for="student-name" class="block text-sm font-bold text-gray-700 mb-2">
+                        Student Full Name <span class="text-red-500">*</span>
+                    </label>
+
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                            <i class="fa-solid fa-pen-nib"></i>
+                        </span>
+                        <input type="text" id="student-name" required
+                               placeholder="Enter your full triple name..."
+                               class="w-full pl-10 pr-4 py-3.5 border-2 border-purple-200 rounded-xl focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-200 transition-all font-semibold text-gray-800">
+                    </div>
+                </div>
+
+                <button type="submit" 
+                        class="w-full bg-gradient-to-r from-purple-700 to-pink-600 hover:from-purple-800 hover:to-pink-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 text-lg flex items-center justify-center gap-2">
+                    <span>Proceed to Instructions</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+        </section>
+
+        <!-- SCREEN 2: INSTRUCTIONS SCREEN -->
+        <section id="instructions-screen" class="glass-card rounded-3xl p-6 md:p-10 max-w-3xl mx-auto w-full hidden transition-all duration-300">
+            <div class="border-b pb-4 mb-6 flex items-center justify-between">
+                <h2 class="text-2xl md:text-3xl font-extrabold text-purple-950">Exam Instructions & Rules</h2>
+                <span class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1.5 rounded-full">50 Questions</span>
+            </div>
+
+            <ul class="space-y-4 mb-8 text-gray-700 text-base md:text-lg">
+                <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-clock text-pink-600 text-xl mt-1"></i>
+                    <span><strong>Exam Duration:</strong> You have exactly <strong>20 minutes</strong> to complete all 50 questions.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-keyboard text-purple-600 text-xl mt-1"></i>
+                    <span><strong>Numeric Answers:</strong> For "Complete / Fill-in" questions, enter <strong>digits only</strong> (e.g., 9000, 150). Do not write letters or unit labels.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-eye-slash text-pink-600 text-xl mt-1"></i>
+                    <span><strong>Instant Feedback:</strong> Correctness is hidden during the exam. Full score report and step-by-step solutions will be generated at the end.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-hourglass-end text-purple-600 text-xl mt-1"></i>
+                    <span><strong>Auto-Submission:</strong> The system will automatically submit your responses when the countdown timer reaches zero.</span>
+                </li>
+            </ul>
+
+            <div class="flex gap-4">
+                <button onclick="goToWelcome()" class="w-1/3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3.5 px-4 rounded-xl transition-all">
+                    Back
+                </button>
+                <button onclick="startExam()" class="w-2/3 bg-gradient-to-r from-purple-700 to-pink-600 hover:from-purple-800 hover:to-pink-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 text-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-play"></i>
+                    <span>Start Exam Now</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: QUESTIONS SCREEN -->
+        <section id="questions-screen" class="glass-card rounded-3xl p-6 md:p-8 w-full hidden transition-all duration-300">
+            <!-- Header Bar inside Questions -->
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200">
+                <!-- Question Progress Indicator -->
+                <div>
+                    <span id="question-number-badge" class="text-sm font-bold text-purple-600 uppercase tracking-wider block mb-1">Question 1 of 50</span>
+                    <div class="w-48 bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                        <div id="progress-bar" class="bg-gradient-to-r from-purple-600 to-pink-500 h-2.5 rounded-full transition-all duration-300" style="width: 2%"></div>
+                    </div>
+                </div>
+
+                <!-- Difficulty Badge -->
+                <div id="difficulty-badge" class="px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider">
+                    Easy
+                </div>
+
+                <!-- Timer -->
+                <div id="timer-container" class="flex items-center gap-2 bg-purple-50 text-purple-900 border border-purple-200 px-4 py-2 rounded-xl font-mono text-xl font-bold shadow-sm">
+                    <i class="fa-regular fa-clock text-pink-600"></i>
+                    <span id="timer-display">20:00</span>
+                </div>
+            </div>
+
+            <!-- Question Card Body -->
+            <div class="min-h-[220px] mb-8">
+                <h3 id="question-text" class="text-xl md:text-2xl font-bold text-gray-800 mb-6 leading-relaxed">
+                    Loading question...
+                </h3>
+
+                <!-- Options / Inputs Container -->
+                <div id="options-container" class="space-y-3">
+                    <!-- Dynamic rendering of options or input field -->
+                </div>
+            </div>
+
+            <!-- Question Navigation Footer -->
+            <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-gray-200">
+                <button id="prev-btn" onclick="prevQuestion()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-xl transition-all flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                    <i class="fa-solid fa-arrow-left"></i> Previous
+                </button>
+
+                <div class="flex gap-3">
+                    <button id="next-btn" onclick="nextQuestion()" class="bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 px-6 rounded-xl shadow transition-all flex items-center gap-2">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <button id="submit-btn" onclick="confirmSubmit()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-check-double"></i> Submit Exam
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: RESULTS SCREEN -->
+        <section id="results-screen" class="glass-card rounded-3xl p-6 md:p-10 w-full hidden transition-all duration-300">
+            <!-- Top Summary Header -->
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-extrabold text-purple-950 mb-2">Exam Results & Feedback</h2>
+                <p id="student-display-name" class="text-lg font-semibold text-purple-700"></p>
+            </div>
+
+            <!-- Score Summary Card -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 items-center">
+                <!-- Circular Score Gauge -->
+                <div class="flex flex-col items-center justify-center">
+                    <div class="relative w-40 h-40 flex items-center justify-center">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                            <path class="text-gray-200" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path id="score-circle-path" class="text-pink-600 transition-all duration-1000 ease-out" stroke-dasharray="0, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <div class="absolute flex flex-col items-center">
+                            <span id="score-percentage" class="text-3xl font-extrabold text-gray-900">0%</span>
+                            <span id="score-fraction" class="text-xs font-semibold text-gray-500">0 / 50</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Motivational Banner -->
+                <div class="md:col-span-2 bg-purple-50 border-2 border-purple-200 rounded-2xl p-6 text-center md:text-left">
+                    <div id="badge-icon-container" class="text-4xl text-purple-600 mb-2">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h3 id="motivational-title" class="text-2xl font-bold text-purple-900 mb-2">Excellent Work!</h3>
+                    <p id="motivational-desc" class="text-gray-700 leading-relaxed">
+                        You have shown great understanding of Unit 5 length measurements and conversions.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Detailed Report Header -->
+            <div class="border-t pt-6 mb-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-purple-700"></i>
+                    Detailed Step-by-Step Question Report
+                </h3>
+
+                <!-- Filter Controls -->
+                <div class="flex gap-2 mb-6">
+                    <button onclick="filterReport('all')" id="filter-all" class="px-4 py-1.5 rounded-full text-xs font-bold bg-purple-700 text-white shadow">All (50)</button>
+                    <button onclick="filterReport('correct')" id="filter-correct" class="px-4 py-1.5 rounded-full text-xs font-bold bg-gray-200 text-gray-700 hover:bg-gray-300">Correct</button>
+                    <button onclick="filterReport('incorrect')" id="filter-incorrect" class="px-4 py-1.5 rounded-full text-xs font-bold bg-gray-200 text-gray-700 hover:bg-gray-300">Incorrect / Skipped</button>
+                </div>
+
+                <!-- Report List Container -->
+                <div id="report-container" class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+                    <!-- Rendered dynamically -->
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <button onclick="location.reload()" class="bg-gradient-to-r from-purple-700 to-pink-600 hover:from-purple-800 hover:to-pink-700 text-white font-bold py-3.5 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+                    <i class="fa-solid fa-rotate-right mr-2"></i> Retake Exam
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-8 text-center text-white/80 text-xs py-2">
+        &copy; Math Unit 5 Assessment System | Designed for Mr. Sayed Abdelrahman
+    </footer>
+
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <script>
+        // =========================================================================
+        // QUESTION BANK: Exactly 50 Questions (30 MCQ, 16 Complete, 4 True/False)
+        // =========================================================================
+        const questionBank = [
+            // --- MCQs (30 Questions) ---
+            {
+                id: 1, type: "mcq", difficulty: "Easy",
+                question: "Which unit of measurement is most appropriate to measure the thickness of a coin?",
+                options: ["Millimeter (mm)", "Centimeter (cm)", "Meter (m)", "Kilometer (km)"],
+                answer: "Millimeter (mm)",
+                exp: "Coins are very thin, so the millimeter (mm) is the most accurate unit to express their thickness."
+            },
+            {
+                id: 2, type: "mcq", difficulty: "Easy",
+                question: "Which unit is best suited to express the width of a classroom blackboard?",
+                options: ["Millimeter (mm)", "Centimeter (cm)", "Meter (m)", "Kilometer (km)"],
+                answer: "Meter (m)",
+                exp: "A blackboard width is typical of room dimensions, which are best measured in meters (m)."
+            },
+            {
+                id: 3, type: "mcq", difficulty: "Easy",
+                question: "What is the appropriate unit to measure the length of a standard ballpoint pen?",
+                options: ["Millimeter (mm)", "Centimeter (cm)", "Meter (m)", "Kilometer (km)"],
+                answer: "Centimeter (cm)",
+                exp: "A ballpoint pen is a small handheld object, best measured in centimeters (cm)."
+            },
+            {
+                id: 4, type: "mcq", difficulty: "Easy",
+                question: "Which unit would you use to measure the length of a swimming pool?",
+                options: ["Millimeter (mm)", "Centimeter (cm)", "Meter (m)", "Kilometer (km)"],
+                answer: "Meter (m)",
+                exp: "Swimming pool lengths span several meters, making the meter (m) the suitable unit."
+            },
+            {
+                id: 5, type: "mcq", difficulty: "Easy",
+                question: "What unit of length is best for measuring the height of a school desk?",
+                options: ["Millimeter (mm)", "Centimeter (cm)", "Meter (m)", "Kilometer (km)"],
+                answer: "Centimeter (cm)",
+                exp: "Desk heights are usually around 70–80 cm, making centimeters (cm) ideal."
+            },
+            {
+                id: 6, type: "mcq", difficulty: "Easy",
+                question: "Which unit is most appropriate for measuring the distance walked in one hour?",
+                options: ["Millimeter (mm)", "Centimeter (cm)", "Meter (m)", "Kilometer (km)"],
+                answer: "Kilometer (km)",
+                exp: "Distances walked over long periods are large and expressed in kilometers (km)."
+            },
+            {
+                id: 7, type: "mcq", difficulty: "Easy",
+                question: "What unit is most suitable to measure the thickness of a notebook?",
+                options: ["Millimeter (mm)", "Centimeter (cm)", "Meter (m)", "Kilometer (km)"],
+                answer: "Millimeter (mm)",
+                exp: "Notebook thickness is very small, best represented using millimeters (mm)."
+            },
+            {
+                id: 8, type: "mcq", difficulty: "Easy",
+                question: "Which unit should be used to measure the route of a marathon course?",
+                options: ["Millimeter (mm)", "Centimeter (cm)", "Meter (m)", "Kilometer (km)"],
+                answer: "Kilometer (km)",
+                exp: "Marathon routes cover long geographic distances measured in kilometers (km)."
+            },
+            {
+                id: 9, type: "mcq", difficulty: "Easy",
+                question: "Convert $9\\text{ km}$ to meters.",
+                options: ["90 m", "900 m", "9,000 m", "90,000 m"],
+                answer: "9,000 m",
+                exp: "Since $1\\text{ km} = 1,000\\text{ m}$, $9\\text{ km} = 9 \\times 1,000 = 9,000\\text{ m}$."
+            },
+            {
+                id: 10, type: "mcq", difficulty: "Easy",
+                question: "Convert $1\\text{ km } 370\\text{ m}$ to meters.",
+                options: ["1,370 m", "13,700 m", "371 m", "137 m"],
+                answer: "1,370 m",
+                exp: "$1\\text{ km} = 1,000\\text{ m}$. Adding $370\\text{ m}$ yields $1,000 + 370 = 1,370\\text{ m}$."
+            },
+            {
+                id: 11, type: "mcq", difficulty: "Easy",
+                question: "Convert $1\\text{ km } 930\\text{ m}$ into meters.",
+                options: ["1,930 m", "19,300 m", "193 m", "931 m"],
+                answer: "1,930 m",
+                exp: "$1\\text{ km} = 1,000\\text{ m}$. So, $1,000\\text{ m} + 930\\text{ m} = 1,930\\text{ m}$."
+            },
+            {
+                id: 12, type: "mcq", difficulty: "Easy",
+                question: "Convert $1\\text{ km } 460\\text{ m}$ into meters.",
+                options: ["146 m", "1,460 m", "14,600 m", "461 m"],
+                answer: "1,460 m",
+                exp: "$1\\text{ km} = 1,000\\text{ m}$. Adding $460\\text{ m}$ gives $1,460\\text{ m}$."
+            },
+            {
+                id: 13, type: "mcq", difficulty: "Medium",
+                question: "Convert $2\\text{ km } 530\\text{ m}$ into meters.",
+                options: ["2,530 m", "25,300 m", "253 m", "532 m"],
+                answer: "2,530 m",
+                exp: "$2\\text{ km} = 2,000\\text{ m}$. Adding $530\\text{ m}$ gives $2,530\\text{ m}$."
+            },
+            {
+                id: 14, type: "mcq", difficulty: "Medium",
+                question: "Convert $5\\text{ km } 400\\text{ m}$ into meters.",
+                options: ["540 m", "5,400 m", "54,000 m", "405 m"],
+                answer: "5,400 m",
+                exp: "$5\\text{ km} = 5,000\\text{ m}$. $5,000 + 400 = 5,400\\text{ m}$."
+            },
+            {
+                id: 15, type: "mcq", difficulty: "Medium",
+                question: "Convert $1\\text{ km } 80\\text{ m}$ into meters.",
+                options: ["180 m", "1,080 m", "10,800 m", "1,800 m"],
+                answer: "1,080 m",
+                exp: "$1\\text{ km} = 1,000\\text{ m}$. Adding $80\\text{ m}$ gives $1,000 + 80 = 1,080\\text{ m}$."
+            },
+            {
+                id: 16, type: "mcq", difficulty: "Medium",
+                question: "Convert $2\\text{ km } 40\\text{ m}$ into meters.",
+                options: ["2,040 m", "240 m", "2,400 m", "20,400 m"],
+                answer: "2,040 m",
+                exp: "$2\\text{ km} = 2,000\\text{ m}$. Adding $40\\text{ m}$ gives $2,000 + 40 = 2,040\\text{ m}$."
+            },
+            {
+                id: 17, type: "mcq", difficulty: "Medium",
+                question: "Convert $9\\text{ km } 9\\text{ m}$ into meters.",
+                options: ["909 m", "9,090 m", "9,009 m", "990 m"],
+                answer: "9,009 m",
+                exp: "$9\\text{ km} = 9,000\\text{ m}$. Adding $9\\text{ m}$ gives $9,000 + 9 = 9,009\\text{ m}$."
+            },
+            {
+                id: 18, type: "mcq", difficulty: "Medium",
+                question: "Convert $6\\text{ km } 606\\text{ m}$ into meters.",
+                options: ["6,606 m", "60,606 m", "666 m", "6,066 m"],
+                answer: "6,606 m",
+                exp: "$6\\text{ km} = 6,000\\text{ m}$. Adding $606\\text{ m}$ gives $6,000 + 606 = 6,606\\text{ m}$."
+            },
+            {
+                id: 19, type: "mcq", difficulty: "Medium",
+                question: "A ruler mark indicates $2\\text{ m } 20\\text{ cm}$. What is this total length in centimeters?",
+                options: ["22 cm", "220 cm", "2,020 cm", "202 cm"],
+                answer: "220 cm",
+                exp: "$2\\text{ m} = 200\\text{ cm}$. $200\\text{ cm} + 20\\text{ cm} = 220\\text{ cm}$."
+            },
+            {
+                id: 20, type: "mcq", difficulty: "Medium",
+                question: "A ruler mark indicates $3\\text{ m } 15\\text{ cm}$. Express this length in centimeters.",
+                options: ["315 cm", "351 cm", "3,015 cm", "31.5 cm"],
+                answer: "315 cm",
+                exp: "$3\\text{ m} = 300\\text{ cm}$. $300\\text{ cm} + 15\\text{ cm} = 315\\text{ cm}$."
+            },
+            {
+                id: 21, type: "mcq", difficulty: "Medium",
+                question: "An arrow points to $5\\text{ m } 30\\text{ cm}$ on a measuring tape. What is this value in centimeters?",
+                options: ["53 cm", "503 cm", "530 cm", "5,030 cm"],
+                answer: "530 cm",
+                exp: "$5\\text{ m} = 500\\text{ cm}$. $500\\text{ cm} + 30\\text{ cm} = 530\\text{ cm}$."
+            },
+            {
+                id: 22, type: "mcq", difficulty: "Medium",
+                question: "An arrow points to $6\\text{ m } 18\\text{ cm}$ on a measuring tape. What is this value in centimeters?",
+                options: ["618 cm", "681 cm", "6,018 cm", "61.8 cm"],
+                answer: "618 cm",
+                exp: "$6\\text{ m} = 600\\text{ cm}$. $600\\text{ cm} + 18\\text{ cm} = 618\\text{ cm}$."
+            },
+            {
+                id: 23, type: "mcq", difficulty: "Hard",
+                question: "An arrow points to $5\\text{ m } 5\\text{ cm}$ on a ruler scale. What is this total length in centimeters?",
+                options: ["55 cm", "550 cm", "505 cm", "5,005 cm"],
+                answer: "505 cm",
+                exp: "$5\\text{ m} = 500\\text{ cm}$. Adding $5\\text{ cm}$ yields $500 + 5 = 505\\text{ cm}$."
+            },
+            {
+                id: 24, type: "mcq", difficulty: "Hard",
+                question: "An arrow points to $6\\text{ m } 5\\text{ cm}$. What is this length in centimeters?",
+                options: ["605 cm", "650 cm", "65 cm", "6,005 cm"],
+                answer: "605 cm",
+                exp: "$6\\text{ m} = 600\\text{ cm}$. Adding $5\\text{ cm}$ yields $600 + 5 = 605\\text{ cm}$."
+            },
+            {
+                id: 25, type: "mcq", difficulty: "Hard",
+                question: "An arrow points to $4\\text{ m } 81\\text{ cm}$. What is this length in centimeters?",
+                options: ["481 cm", "418 cm", "4,081 cm", "48.1 cm"],
+                answer: "481 cm",
+                exp: "$4\\text{ m} = 400\\text{ cm}$. Adding $81\\text{ cm}$ gives $400 + 81 = 481\\text{ cm}$."
+            },
+            {
+                id: 26, type: "mcq", difficulty: "Hard",
+                question: "An arrow points to $9\\text{ m } 8\\text{ cm}$. What is this total length in centimeters?",
+                options: ["980 cm", "908 cm", "98 cm", "9,008 cm"],
+                answer: "908 cm",
+                exp: "$9\\text{ m} = 900\\text{ cm}$. Adding $8\\text{ cm}$ gives $900 + 8 = 908\\text{ cm}$."
+            },
+            {
+                id: 27, type: "mcq", difficulty: "Hard",
+                question: "Dina travels $700\\text{ m}$ from her house to an intersection, then $550\\text{ m}$ to her school. What is the total distance in meters?",
+                options: ["1,100 m", "1,250 m", "1,300 m", "1,500 m"],
+                answer: "1,250 m",
+                exp: "Total distance $= 700\\text{ m} + 550\\text{ m} = 1,250\\text{ m}$."
+            },
+            {
+                id: 28, type: "mcq", difficulty: "Hard",
+                question: "Express the total distance from Dina's house to school ($1,250\\text{ m}$) in kilometers and meters.",
+                options: ["1 km 250 m", "12 km 50 m", "125 km 0 m", "0 km 125 m"],
+                answer: "1 km 250 m",
+                exp: "$1,250\\text{ m} = 1,000\\text{ m} + 250\\text{ m} = 1\\text{ km } 250\\text{ m}$."
+            },
+            {
+                id: 29, type: "mcq", difficulty: "Hard",
+                question: "Dina's total route to school is $1,250\\text{ m}$. The direct shortest path is $1,100\\text{ m}$. What is the difference between these two distances?",
+                options: ["100 m", "150 m", "200 m", "250 m"],
+                answer: "150 m",
+                exp: "Difference $= 1,250\\text{ m} - 1,100\\text{ m} = 150\\text{ m}$."
+            },
+            {
+                id: 30, type: "mcq", difficulty: "Medium",
+                question: "How many millimeters are equal to $1\\text{ centimeter}$?",
+                options: ["1 mm", "10 mm", "100 mm", "1,000 mm"],
+                answer: "10 mm",
+                exp: "By standard metric conversion, $1\\text{ cm} = 10\\text{ mm}$."
+            },
+
+            // --- COMPLETE / FILL-IN-THE-BLANK (16 Questions - Pure Numeric Digits) ---
+            {
+                id: 31, type: "fill", difficulty: "Easy",
+                question: "$1,000\\text{ m} = \\text{_____ km}$. (Enter digits only)",
+                answer: "1",
+                exp: "$1,000\\text{ m} \\div 1,000 = 1\\text{ km}$."
+            },
+            {
+                id: 32, type: "fill", difficulty: "Easy",
+                question: "$5,000\\text{ m} = \\text{_____ km}$. (Enter digits only)",
+                answer: "5",
+                exp: "$5,000\\text{ m} \\div 1,000 = 5\\text{ km}$."
+            },
+            {
+                id: 33, type: "fill", difficulty: "Easy",
+                question: "$8,000\\text{ m} = \\text{_____ km}$. (Enter digits only)",
+                answer: "8",
+                exp: "$8,000\\text{ m} \\div 1,000 = 8\\text{ km}$."
+            },
+            {
+                id: 34, type: "fill", difficulty: "Easy",
+                question: "$6,000\\text{ m} = \\text{_____ km}$. (Enter digits only)",
+                answer: "6",
+                exp: "$6,000\\text{ m} \\div 1,000 = 6\\text{ km}$."
+            },
+            {
+                id: 35, type: "fill", difficulty: "Easy",
+                question: "$9,000\\text{ m} = \\text{_____ km}$. (Enter digits only)",
+                answer: "9",
+                exp: "$9,000\\text{ m} \\div 1,000 = 9\\text{ km}$."
+            },
+            {
+                id: 36, type: "fill", difficulty: "Medium",
+                question: "In $1,250\\text{ m} = 1\\text{ km and } \\text{_____ m}$, enter the remaining meters.",
+                answer: "250",
+                exp: "$1,250\\text{ m} - 1,000\\text{ m} = 250\\text{ m}$."
+            },
+            {
+                id: 37, type: "fill", difficulty: "Medium",
+                question: "In $2,450\\text{ m} = 2\\text{ km and } \\text{_____ m}$, enter the remaining meters.",
+                answer: "450",
+                exp: "$2,450\\text{ m} - 2,000\\text{ m} = 450\\text{ m}$."
+            },
+            {
+                id: 38, type: "fill", difficulty: "Medium",
+                question: "In $3,760\\text{ m} = 3\\text{ km and } \\text{_____ m}$, enter the remaining meters.",
+                answer: "760",
+                exp: "$3,760\\text{ m} - 3,000\\text{ m} = 760\\text{ m}$."
+            },
+            {
+                id: 39, type: "fill", difficulty: "Hard",
+                question: "In $4,040\\text{ m} = 4\\text{ km and } \\text{_____ m}$, enter the remaining meters.",
+                answer: "40",
+                exp: "$4,040\\text{ m} - 4,000\\text{ m} = 40\\text{ m}$."
+            },
+            {
+                id: 40, type: "fill", difficulty: "Hard",
+                question: "In $1,050\\text{ m} = 1\\text{ km and } \\text{_____ m}$, enter the remaining meters.",
+                answer: "50",
+                exp: "$1,050\\text{ m} - 1,000\\text{ m} = 50\\text{ m}$."
+            },
+            {
+                id: 41, type: "fill", difficulty: "Hard",
+                question: "In $1,080\\text{ m} = 1\\text{ km and } \\text{_____ m}$, enter the remaining meters.",
+                answer: "80",
+                exp: "$1,080\\text{ m} - 1,000\\text{ m} = 80\\text{ m}$."
+            },
+            {
+                id: 42, type: "fill", difficulty: "Hard",
+                question: "In $8,008\\text{ m} = 8\\text{ km and } \\text{_____ m}$, enter the remaining meters.",
+                answer: "8",
+                exp: "$8,008\\text{ m} - 8,000\\text{ m} = 8\\text{ m}$."
+            },
+            {
+                id: 43, type: "fill", difficulty: "Medium",
+                question: "What is $4\\text{ m}$ expressed in centimeters? (Digits only)",
+                answer: "400",
+                exp: "$4\\text{ m} = 4 \\times 100 = 400\\text{ cm}$."
+            },
+            {
+                id: 44, type: "fill", difficulty: "Medium",
+                question: "What is $7\\text{ m}$ expressed in centimeters? (Digits only)",
+                answer: "700",
+                exp: "$7\\text{ m} = 7 \\times 100 = 700\\text{ cm}$."
+            },
+            {
+                id: 45, type: "fill", difficulty: "Hard",
+                question: "If a string is $3\\text{ m } 45\\text{ cm}$ long, what is its total length in centimeters?",
+                answer: "345",
+                exp: "$3\\text{ m} = 300\\text{ cm}$. $300 + 45 = 345\\text{ cm}$."
+            },
+            {
+                id: 46, type: "fill", difficulty: "Hard",
+                question: "Find the difference in meters between $2\\text{ km}$ and $1,400\\text{ m}$. (Digits only)",
+                answer: "600",
+                exp: "$2\\text{ km} = 2,000\\text{ m}$. $2,000 - 1,400 = 600\\text{ m}$."
+            },
+
+            // --- TRUE / FALSE (4 Questions) ---
+            {
+                id: 47, type: "tf", difficulty: "Easy",
+                question: "True or False: $1\\text{ kilometer}$ is equal to $100\\text{ meters}$.",
+                options: ["True", "False"],
+                answer: "False",
+                exp: "False. $1\\text{ kilometer} = 1,000\\text{ meters}$, not $100\\text{ meters}$."
+            },
+            {
+                id: 48, type: "tf", difficulty: "Easy",
+                question: "True or False: Millimeters (mm) are smaller units of length than centimeters (cm).",
+                options: ["True", "False"],
+                answer: "True",
+                exp: "True. $1\\text{ cm} = 10\\text{ mm}$, making the millimeter smaller."
+            },
+            {
+                id: 49, type: "tf", difficulty: "Medium",
+                question: "True or False: $2,040\\text{ m}$ is equivalent to $2\\text{ km } 400\\text{ m}$.",
+                options: ["True", "False"],
+                answer: "False",
+                exp: "False. $2,040\\text{ m} = 2\\text{ km } 40\\text{ m}$. Whereas $2\\text{ km } 400\\text{ m} = 2,400\\text{ m}$."
+            },
+            {
+                id: 50, type: "tf", difficulty: "Hard",
+                question: "True or False: Adding $700\\text{ m}$ and $550\\text{ m}$ results in more than $1\\text{ kilometer}$.",
+                options: ["True", "False"],
+                answer: "True",
+                exp: "True. $700\\text{ m} + 550\\text{ m} = 1,250\\text{ m} = 1.25\\text{ km}$, which is greater than $1\\text{ km}$."
+            }
+        ];
+
+        // Global State Variables
+        let studentName = "";
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questionBank.length).fill(null);
+        let timerInterval = null;
+        let timeRemaining = 20 * 60; // 20 minutes in seconds
+
+        // Screen Navigation Functions
+        function goToInstructions() {
+            const nameInput = document.getElementById('student-name').value.trim();
+            if (!nameInput) return;
+            studentName = nameInput;
+            
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('instructions-screen').classList.remove('hidden');
+        }
+
+        function goToWelcome() {
+            document.getElementById('instructions-screen').classList.add('hidden');
+            document.getElementById('welcome-screen').classList.remove('hidden');
+        }
+
+        function startExam() {
+            document.getElementById('instructions-screen').classList.add('hidden');
+            document.getElementById('questions-screen').classList.remove('hidden');
+            
+            startTimer();
+            renderQuestion();
+        }
+
+        // Timer Logic
+        function startTimer() {
+            const timerDisplay = document.getElementById('timer-display');
+            const timerContainer = document.getElementById('timer-container');
+
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                // Warning state when under 3 minutes
+                if (timeRemaining <= 180) {
+                    timerContainer.classList.remove('bg-purple-50', 'text-purple-900', 'border-purple-200');
+                    timerContainer.classList.add('bg-red-100', 'text-red-700', 'border-red-300', 'animate-pulse');
+                }
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    finishExam();
+                }
+            }, 1000);
+        }
+
+        // Render Current Question
+        function renderQuestion() {
+            const q = questionBank[currentQuestionIndex];
+
+            // Update Progress & Badge
+            document.getElementById('question-number-badge').textContent = `Question ${currentQuestionIndex + 1} of ${questionBank.length}`;
+            const progressPercent = ((currentQuestionIndex + 1) / questionBank.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+            // Difficulty styling
+            const diffBadge = document.getElementById('difficulty-badge');
+            diffBadge.textContent = q.difficulty;
+            if (q.difficulty === 'Easy') {
+                diffBadge.className = "px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300";
+            } else if (q.difficulty === 'Medium') {
+                diffBadge.className = "px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-amber-100 text-amber-800 border border-amber-300";
+            } else {
+                diffBadge.className = "px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-300";
+            }
+
+            // Question Text
+            document.getElementById('question-text').innerHTML = q.question;
+
+            // Render Input/Options based on type
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            if (q.type === 'mcq' || q.type === 'tf') {
+                q.options.forEach((opt, idx) => {
+                    const isSelected = userAnswers[currentQuestionIndex] === opt;
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.onclick = () => selectOption(opt);
+                    btn.className = `w-full text-left p-4 rounded-xl border-2 font-semibold transition-all flex items-center justify-between ${
+                        isSelected 
+                            ? 'border-purple-600 bg-purple-50 text-purple-900 shadow-md' 
+                            : 'border-gray-200 bg-white hover:border-purple-300 hover:bg-purple-50/50 text-gray-700'
+                    }`;
+
+                    btn.innerHTML = `
+                        <span>${opt}</span>
+                        <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                            isSelected ? 'border-purple-600 bg-purple-600 text-white' : 'border-gray-300'
+                        }">
+                            ${isSelected ? '<i class="fa-solid fa-check text-xs"></i>' : ''}
+                        </div>
+                    `;
+                    container.appendChild(btn);
+                });
+            } else if (q.type === 'fill') {
+                const currentVal = userAnswers[currentQuestionIndex] || '';
+                container.innerHTML = `
+                    <div class="max-w-md">
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Your Answer (Digits Only):</label>
+                        <input type="text" id="fill-input" value="${currentVal}" 
+                               oninput="handleNumericInput(this)"
+                               placeholder="e.g. 150"
+                               class="w-full p-4 border-2 border-purple-200 rounded-xl font-mono text-xl font-bold text-gray-800 focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-200">
+                    </div>
+                `;
+            }
+
+            // Control Buttons State
+            document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+            if (currentQuestionIndex === questionBank.length - 1) {
+                document.getElementById('next-btn').classList.add('hidden');
+                document.getElementById('submit-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('next-btn').classList.remove('hidden');
+                document.getElementById('submit-btn').classList.add('hidden');
+            }
+
+            // Trigger MathJax Typesetting
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        // Selection Handlers
+        function selectOption(opt) {
+            userAnswers[currentQuestionIndex] = opt;
+            renderQuestion();
+        }
+
+        function handleNumericInput(inputElem) {
+            // Force numeric characters only
+            const cleanVal = inputElem.value.replace(/[^0-9]/g, '');
+            inputElem.value = cleanVal;
+            userAnswers[currentQuestionIndex] = cleanVal;
+        }
+
+        // Navigation Controls
+        function nextQuestion() {
+            if (currentQuestionIndex < questionBank.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function confirmSubmit() {
+            const unanswered = userAnswers.filter(ans => ans === null || ans === '').length;
+            let msg = "Are you sure you want to submit your exam now?";
+            if (unanswered > 0) {
+                msg = `You have ${unanswered} unanswered question(s). Are you sure you want to submit?`;
+            }
+
+            if (confirm(msg)) {
+                finishExam();
+            }
+        }
+
+        // Finish Exam & Generate Detailed Report
+        function finishExam() {
+            clearInterval(timerInterval);
+
+            // Hide questions, show results
+            document.getElementById('questions-screen').classList.add('hidden');
+            document.getElementById('results-screen').classList.remove('hidden');
+
+            // Calculate Score
+            let correctCount = 0;
+            questionBank.forEach((q, idx) => {
+                const userAns = (userAnswers[idx] || '').trim();
+                const correctAns = q.answer.trim();
+                if (userAns.toLowerCase() === correctAns.toLowerCase()) {
+                    correctCount++;
+                }
+            });
+
+            const percentage = Math.round((correctCount / questionBank.length) * 100);
+
+            // Set Header & Score Display
+            document.getElementById('student-display-name').textContent = `Student: ${studentName}`;
+            document.getElementById('score-percentage').textContent = `${percentage}%`;
+            document.getElementById('score-fraction').textContent = `${correctCount} / ${questionBank.length}`;
+
+            // Animate SVG Gauge Path
+            const circlePath = document.getElementById('score-circle-path');
+            circlePath.setAttribute('stroke-dasharray', `${percentage}, 100`);
+
+            // Motivational Feedback
+            const titleElem = document.getElementById('motivational-title');
+            const descElem = document.getElementById('motivational-desc');
+            const iconContainer = document.getElementById('badge-icon-container');
+
+            if (percentage >= 85) {
+                titleElem.textContent = "Outstanding Performance! 🌟";
+                descElem.textContent = "Mastery level achieved! You have an exceptional grasp of measurement units and conversions.";
+                iconContainer.innerHTML = '<i class="fa-solid fa-trophy text-amber-500"></i>';
+                // Trigger Confetti
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            } else if (percentage >= 70) {
+                titleElem.textContent = "Great Effort! 👍";
+                descElem.textContent = "Solid understanding of Unit 5. Review the detailed step-by-step solutions below to fix small mistakes.";
+                iconContainer.innerHTML = '<i class="fa-solid fa-medal text-purple-600"></i>';
+            } else {
+                titleElem.textContent = "Keep Practicing! 💪";
+                descElem.textContent = "Review the detailed explanations below to strengthen your grasp on unit conversions and ruler reading.";
+                iconContainer.innerHTML = '<i class="fa-solid fa-book-open-reader text-pink-600"></i>';
+            }
+
+            // Render Detailed Report
+            renderReport('all');
+        }
+
+        // Render Detailed Step-by-Step Question Report
+        function renderReport(filter) {
+            const container = document.getElementById('report-container');
+            container.innerHTML = '';
+
+            // Update Filter Button Styles
+            ['all', 'correct', 'incorrect'].forEach(f => {
+                const btn = document.getElementById(`filter-${f}`);
+                if (f === filter) {
+                    btn.className = "px-4 py-1.5 rounded-full text-xs font-bold bg-purple-700 text-white shadow";
+                } else {
+                    btn.className = "px-4 py-1.5 rounded-full text-xs font-bold bg-gray-200 text-gray-700 hover:bg-gray-300";
+                }
+            });
+
+            questionBank.forEach((q, idx) => {
+                const userAns = (userAnswers[idx] || '').trim();
+                const correctAns = q.answer.trim();
+                const isCorrect = userAns.toLowerCase() === correctAns.toLowerCase();
+
+                if (filter === 'correct' && !isCorrect) return;
+                if (filter === 'incorrect' && isCorrect) return;
+
+                const card = document.createElement('div');
+                card.className = `p-4 md:p-5 rounded-2xl border-2 transition-all ${
+                    isCorrect 
+                        ? 'border-emerald-200 bg-emerald-50/40' 
+                        : 'border-rose-200 bg-rose-50/40'
+                }`;
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-3 mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md ${
+                            isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                        }">
+                            Q${idx + 1} • ${q.difficulty} (${isCorrect ? 'Correct' : 'Incorrect'})
+                        </span>
+                        <i class="fa-solid ${isCorrect ? 'fa-circle-check text-emerald-600' : 'fa-circle-xmark text-rose-600'} text-xl"></i>
+                    </div>
+
+                    <h4 class="font-bold text-gray-800 mb-3">${q.question}</h4>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm mb-3">
+                        <div class="p-2.5 rounded-xl ${isCorrect ? 'bg-emerald-100/60 text-emerald-900' : 'bg-rose-100/60 text-rose-900'}">
+                            <strong>Your Answer:</strong> ${userAns ? userAns : '<span class="italic text-gray-400">Skipped</span>'}
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-purple-100/60 text-purple-900">
+                            <strong>Correct Answer:</strong> ${correctAns}
+                        </div>
+                    </div>
+
+                    <div class="bg-white/80 p-3 rounded-xl border border-gray-200 text-xs md:text-sm text-gray-700">
+                        <strong class="text-purple-800 block mb-1">
+                            <i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> Explanation & Solution:
+                        </strong>
+                        ${q.exp}
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            // Re-render MathJax inside report
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function filterReport(type) {
+            renderReport(type);
+        }
+    </script>
+</body>
+</html>
